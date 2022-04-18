@@ -1,7 +1,7 @@
 package com.pbl2.pbl2.security;
 
-import com.sparta.springcore.security.UserDetailsImpl;
-import com.sparta.springcore.security.jwt.JwtTokenUtils;
+
+import com.pbl2.pbl2.security.jwt.JwtTokenUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
