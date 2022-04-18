@@ -1,6 +1,5 @@
 package com.pbl2.pbl2.security.provider;
 
-
 import com.pbl2.pbl2.security.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

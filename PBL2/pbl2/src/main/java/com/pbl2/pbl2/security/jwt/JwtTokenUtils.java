@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pbl2.pbl2.security.UserDetailsImpl;
 
-
 import java.util.Date;
 
 public final class JwtTokenUtils {

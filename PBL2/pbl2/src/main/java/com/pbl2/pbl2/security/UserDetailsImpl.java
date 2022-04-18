@@ -1,19 +1,22 @@
 package com.pbl2.pbl2.security;
 
-
-import com.pbl2.pbl2.model.User;
-import lombok.RequiredArgsConstructor;
+import com.sparta.springcore.model.User;
+import com.sparta.springcore.model.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
-@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
+
+    public UserDetailsImpl(User user) {
+        this.user = user;
+    }
 
     public User getUser() {
         return user;
@@ -21,12 +24,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getUserPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUserEmail();
+        return user.getUsername();
     }
 
     @Override
@@ -51,11 +54,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        User.UserRoleEnum role = user.getRole();
-//        String authority = role.getAuthority();
+        UserRoleEnum role = user.getRole();
+        String authority = role.getAuthority();
 
-//        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("authority");
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("authority");
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(simpleGrantedAuthority);
 
