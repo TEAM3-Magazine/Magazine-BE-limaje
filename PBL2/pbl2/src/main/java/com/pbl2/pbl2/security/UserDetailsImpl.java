@@ -52,15 +52,19 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
+    //    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+////        UserRoleEnum role = user.getRole();
+////        String authority = role.getAuthority();
+////
+////        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
+////        Collection<GrantedAuthority> authorities = new ArrayList<>();
+////        authorities.add(simpleGrantedAuthority);
+//
+//        return Collections.emptyList();
+//    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        UserRoleEnum role = user.getRole();
-//        String authority = role.getAuthority();
-//
-//        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
-//        Collection<GrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(simpleGrantedAuthority);
-
-        return Collections.emptyList();
+        return null;
     }
 }

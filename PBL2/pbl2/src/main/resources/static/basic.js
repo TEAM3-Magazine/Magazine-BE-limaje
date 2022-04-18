@@ -16,13 +16,14 @@ $(document).ready(function () {
         url: `/user/userinfo`,
         contentType: "application/json",
         success: function (response) {
-            const username = response.username;
-            const isAdmin = !!response.admin;
+            console.log(response);
+            const username = response.user_name;
 
             if (!username) {
                 window.location.href = '/user/loginView';
             }
 
+            showProduct();
             $('#username').text(username);
             if (isAdmin) {
                 showProduct(true);

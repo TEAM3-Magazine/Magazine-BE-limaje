@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public void registerUser(UserDto.Request requestDto) {
 
         System.out.println(requestDto.getUser_email());
@@ -48,4 +50,5 @@ public class UserService {
         User user = new User(new UserDto.Request(email, username, password));
         userRepository.save(user);
     }
+
 }

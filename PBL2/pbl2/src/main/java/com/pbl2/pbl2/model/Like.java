@@ -3,10 +3,9 @@ package com.pbl2.pbl2.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor // 기본생성자를 만듭니다.
 @Getter
@@ -15,4 +14,16 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long likeId;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+
+    public void setUser(User user) { this.user = user; }
+    public void setPost(Post post) { this.post = post; }
 }

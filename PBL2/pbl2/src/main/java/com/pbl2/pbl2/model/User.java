@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
@@ -26,6 +28,14 @@ public class User {
 
     @Column(name = "user_password", nullable = false)
     private String userPassword;
+
+    @OneToMany(mappedBy = "user")
+    List<Post> posts = new ArrayList<Post>();
+
+
+    public void addUserToPost(Post post) { post.setUser(this); }
+
+    public void addUsertoLike(Like like) { like.setUser(this);}
 
     public User(UserDto.Request request) {
         this.userEmail = request.getUser_email();

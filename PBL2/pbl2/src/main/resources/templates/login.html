@@ -48,8 +48,8 @@
       url: `/user/login`,
       contentType: "application/json",
       data: JSON.stringify({
-        username: $('#username').val(),
-        password: $('#password').val()
+        user_email: $('#username').val(),
+        user_password: $('#password').val()
       }),
       success: function (response, textStatus, request) {
         const jwtToken = request.getResponseHeader("Authorization");

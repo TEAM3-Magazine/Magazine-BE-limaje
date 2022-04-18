@@ -3,9 +3,12 @@ package com.pbl2.pbl2.controller;
 
 import com.pbl2.pbl2.dto.PostDto;
 import com.pbl2.pbl2.model.Post;
+import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.PostRepository;
+import com.pbl2.pbl2.security.UserDetailsImpl;
 import com.pbl2.pbl2.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +21,15 @@ public class PostController {
 
     //    CREATE
     @PostMapping("/api/post")
-    public Post createPosting(@RequestBody PostDto.Request request) {
-        Post post = new Post(request);
-        return postRepository.save(post);
+    public Post createPosting(@RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return postService.save(user,request);
     }
 
-    //    READ
+    //    READ All
     @GetMapping("/api/post")
     public List<Post> getPostings() {
-        return postRepository.findAllByOrderByModifiedAtDesc();
+        return postRepository.findAllByOrderByCreatedAtDesc();
     }
 
     //    READ

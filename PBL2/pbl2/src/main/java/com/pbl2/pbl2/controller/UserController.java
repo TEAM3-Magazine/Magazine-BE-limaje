@@ -33,24 +33,16 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto.Request requestDto) {
+    public String registerUser(@RequestBody UserDto.Request requestDto) {
         userService.registerUser(requestDto);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("");
+        return "redirect:/user/loginView";
     }
 
-    // 회원 관련 정보 받기
-//    @PostMapping("/user/userinfo")
-//    @ResponseBody
-//    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        String username = userDetails.getUser().getUsername();
-//        UserRoleEnum role = userDetails.getUser().getRole();
-//        boolean isAdmin = (role == UserRoleEnum.ADMIN);
-//
-//        return new UserInfoDto(username, isAdmin);
-//    }
-
+//     회원 관련 정보 받기
+    @PostMapping("/user/userinfo")
+    @ResponseBody
+    public UserDto.Response getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String userName = userDetails.getUser().getUserName();
+        return new UserDto.Response(userName);
+    }
 }
