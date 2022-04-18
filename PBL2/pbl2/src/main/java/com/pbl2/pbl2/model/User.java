@@ -28,9 +28,9 @@ public class User {
     private String userPassword;
 
     public User(UserDto.Request request) {
-        this.userEmail = request.getUserEmail();
-        this.userName = request.getUserName();
-        this.userPassword = request.getUserPassword();
+        this.userEmail = request.getUser_email();
+        this.userName = request.getUser_name();
+        this.userPassword = request.getUser_password();
     }
 
 }

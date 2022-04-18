@@ -3,24 +3,27 @@ package com.pbl2.pbl2.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 public class UserDto {
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Request{
-        private String userEmail;
-        private String userName;
-        private String userPassword;
+        private String user_email;
+        private String user_name;
+        private String user_password;
     }
 
     @Getter
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Response{
-        private Long userId;
-        private String username;
+        private String user_email;
+        private String user_name;
+        private String user_password;
     }
 
 }
