@@ -26,6 +26,11 @@ public class ExceptionController {
         return new ResponseEntity<>(new ResponseBody("fail", "이미 좋아요 상태 입니다"), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({NotFoundAuth.class})
+    public ResponseEntity<ResponseBody> NotFoundAuth(NotFoundAuth ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "로그인 정보가 필요합니다"), HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler({NotFoundPost.class})
     public ResponseEntity<ResponseBody> NotFoundPost(NotFoundPost ex) {
         return new ResponseEntity<>(new ResponseBody("fail", "존재하지 않는 게시글 입니다"), HttpStatus.NOT_FOUND);

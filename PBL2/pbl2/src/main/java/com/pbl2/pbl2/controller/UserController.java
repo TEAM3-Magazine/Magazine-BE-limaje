@@ -2,6 +2,7 @@ package com.pbl2.pbl2.controller;
 
 
 import com.pbl2.pbl2.dto.UserDto;
+import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.responseEntity.ResponseBody;
 import com.pbl2.pbl2.security.UserDetailsImpl;
 import com.pbl2.pbl2.service.UserService;
@@ -55,5 +56,10 @@ public class UserController {
         String userEmail = userDetails.getUser().getUserEmail();
         String userName = userDetails.getUser().getUserName();
         return new UserDto.Response(userId, userEmail, userName);
+    }
+
+    @GetMapping("/user/authrequired")
+    public void authrequired() {
+        throw new NotFoundAuth();
     }
 }

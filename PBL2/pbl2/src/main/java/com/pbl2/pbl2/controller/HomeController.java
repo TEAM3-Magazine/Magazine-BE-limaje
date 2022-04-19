@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 //        return "index";
 //    }
 //}
-@Controller
-public class HomeController {
-    @GetMapping("/")
-    public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return "index";
-    }
-}
+//@Controller
+//public class HomeController {
+//    @GetMapping("/")
+//    public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return "index";
+//    }
+//}

@@ -1,8 +1,12 @@
 package com.pbl2.pbl2.security.filter;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.security.jwt.HeaderTokenExtractor;
 import com.pbl2.pbl2.security.jwt.JwtPreProcessingToken;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -15,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Token 을 내려주는 Filter 가 아닌  client 에서 받아지는 Token 을 서버 사이드에서 검증하는 클레스 SecurityContextHolder 보관소에 해당
@@ -42,7 +47,19 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         // JWT 값을 담아주는 변수 TokenPayload
         String tokenPayload = request.getHeader("Authorization");
         if (tokenPayload == null) {
-            response.sendRedirect("/user/loginView");
+            response.setStatus(401);
+//            response.sendRedirect("/user/loginView");
+//            return null;
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode tokenObj = mapper.createObjectNode();
+            tokenObj.put("result", "fail");
+            tokenObj.put("msg", "로그인 정보가 필요합니다");
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            PrintWriter out = response.getWriter();
+            out.print(tokenObj);
+            out.flush();
             return null;
         }
 
