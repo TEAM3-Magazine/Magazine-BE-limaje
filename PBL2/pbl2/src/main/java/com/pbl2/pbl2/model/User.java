@@ -30,7 +30,7 @@ public class User {
     private String userPassword;
 
     @OneToMany(mappedBy = "user")
-    List<Post> posts = new ArrayList<Post>();
+    List<Post> posts = new ArrayList<>();
 
 
     public void addUserToPost(Post post) { post.setUser(this); }

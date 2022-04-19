@@ -16,7 +16,7 @@ public class Like {
     private Long likeId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)

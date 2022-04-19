@@ -35,6 +35,8 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
+        private Long user_id;
+        private String user_email;
         private String user_name;
     }
 

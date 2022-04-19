@@ -49,6 +49,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(
                 extractor.extract(tokenPayload, request));
 
+        System.out.println("token : " + jwtToken.toString());
         return super
                 .getAuthenticationManager()
                 .authenticate(jwtToken);

@@ -2,14 +2,20 @@ package com.pbl2.pbl2.service;
 
 
 import com.pbl2.pbl2.dto.UserDto;
+import com.pbl2.pbl2.exception.DuplicatedEmail;
+import com.pbl2.pbl2.exception.DuplicatedNickname;
 import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class UserService {
@@ -33,13 +39,13 @@ public class UserService {
         String username = requestDto.getUser_name();
         Optional<User> found = userRepository.findByUserName(username);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+            throw new DuplicatedEmail();
         }
 
         String userEmail = requestDto.getUser_email();
         found = userRepository.findByUserEmail(userEmail);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+            throw new DuplicatedNickname();
         }
 
         // 패스워드 암호화
