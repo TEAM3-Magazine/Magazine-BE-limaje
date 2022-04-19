@@ -11,11 +11,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class PostService {
     private final PostRepository postRepository;
+
+    public Post get(@PathVariable Long id) {
+        Post post = postRepository.findById(id).orElseThrow(
+                NotFoundPost::new
+        );
+        return post;
+    }
+
+    public List<Post> getAll() {
+        return postRepository.findAllByOrderByCreatedAtDesc();
+    }
 
     @Transactional
     public Post save(User user, PostDto.Request request){
@@ -35,13 +47,12 @@ public class PostService {
     }
 
     @Transactional
-    public Post get(@PathVariable Long id) {
+    public Long delete(Long id) {
         Post post = postRepository.findById(id).orElseThrow(
                 NotFoundPost::new
         );
-        return post;
+        postRepository.deleteById(id);
+        return post.getPostId();
     }
-
-
 
 }

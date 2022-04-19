@@ -25,13 +25,12 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RequiredArgsConstructor
 @RestController
 public class PostController {
-    private final PostRepository postRepository;
     private final PostService postService;
 
     //READ All
     @GetMapping("/api/post")
     public ResponseEntity<List<PostDto.Response>> getPostings() {
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<Post> posts = postService.getAll();
         List<PostDto.Response> body = new ArrayList<>();
 
         for (Post post : posts) {
@@ -66,7 +65,7 @@ public class PostController {
     //DELETE
     @DeleteMapping("/api/post/{id}")
     public ResponseEntity<ResponseBody> deletePosting(@PathVariable Long id) {
-        postRepository.deleteById(id);
+        postService.delete(id);
         return new ResponseEntity<>(new ResponseBody("success","게시글을 삭제했습니다"), HttpStatus.OK);
     }
 

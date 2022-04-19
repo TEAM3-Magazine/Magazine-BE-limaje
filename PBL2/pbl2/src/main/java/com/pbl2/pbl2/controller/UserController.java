@@ -10,7 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,8 +41,8 @@ public class UserController {
 //        return "redirect:/user/loginView";
 //    }
     @PostMapping("/user/signup")
-    public ResponseEntity<ResponseBody>  registerUser(@RequestBody UserDto.Request requestDto) {
-
+    public ResponseEntity<ResponseBody> registerUser(@Valid @RequestBody UserDto.Request requestDto, Errors errors) {
+        userService.validateHandling(errors);
         userService.registerUser(requestDto);
         return new ResponseEntity<>(new ResponseBody("success","회원 가입 성공"), HttpStatus.OK);
     }

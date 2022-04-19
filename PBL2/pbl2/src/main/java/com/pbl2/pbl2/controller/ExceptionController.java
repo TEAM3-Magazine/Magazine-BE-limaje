@@ -31,9 +31,29 @@ public class ExceptionController {
         return new ResponseEntity<>(new ResponseBody("fail", "존재하지 않는 게시글 입니다"), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({NotFoundUser.class})
-    public ResponseEntity<ResponseBody> NotFoundUser(NotFoundUser ex) {
-        return new ResponseEntity<>(new ResponseBody("fail", "존재하지 않는 사용자 입니다"), HttpStatus.NOT_FOUND);
+    @ExceptionHandler({NotValidEmail.class})
+    public ResponseEntity<ResponseBody> NotValidEmail(NotValidEmail ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "유효하지 않은 이메일 형식입니다"), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({NotValidNickname.class})
+    public ResponseEntity<ResponseBody> NotValidNickname(NotValidNickname ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "유효하지 않은 닉네임 형식(최소 3자 이상, 알파벳 대소문자(a~Z), 숫자(0~9))입니다"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotValidNicknameWithPassword.class})
+    public ResponseEntity<ResponseBody> NotValidNicknameWithPassword(NotValidNicknameWithPassword ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "닉네임과 비밀번호가 동일할 수 없습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotValidPassword.class})
+    public ResponseEntity<ResponseBody> NotValidPassword(NotValidPassword ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "유효하지 않은 비밀번호 형식(최소 4자 이상)입니다"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotValidPasswordCheck.class})
+    public ResponseEntity<ResponseBody> NotValidPasswordCheck(NotValidPasswordCheck ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "동일한 비밀번호를 입력해야 합니다."), HttpStatus.BAD_REQUEST);
     }
 
 }
