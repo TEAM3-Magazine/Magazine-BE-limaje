@@ -1,8 +1,10 @@
 package com.pbl2.pbl2.controller;
 
 
+import com.pbl2.pbl2.dto.TokenDto;
 import com.pbl2.pbl2.dto.UserDto;
 import com.pbl2.pbl2.exception.NotFoundAuth;
+import com.pbl2.pbl2.exception.RestException;
 import com.pbl2.pbl2.responseEntity.ResponseBody;
 import com.pbl2.pbl2.security.UserDetailsImpl;
 import com.pbl2.pbl2.service.UserService;
@@ -12,8 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -50,7 +55,6 @@ public class UserController {
 
     //     회원 관련 정보 받기
     @PostMapping("/user/userinfo")
-    @org.springframework.web.bind.annotation.ResponseBody
     public UserDto.Response getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getUserId();
         String userEmail = userDetails.getUser().getUserEmail();
@@ -58,8 +62,28 @@ public class UserController {
         return new UserDto.Response(userId, userEmail, userName);
     }
 
-    @GetMapping("/user/authrequired")
-    public void authrequired() {
-        throw new NotFoundAuth();
+    @PostMapping("/user/login")
+    public ResponseEntity<ResponseBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors) {
+//        if (user != null){
+//            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
+//        }
+        if (errors.hasErrors()) {
+            for (FieldError error : errors.getFieldErrors()) {
+                throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
+            }
+        }
+
+        TokenDto.Response token = userService.login(loginRequest);
+
+        response.setHeader("Authorization", token.getToken());
+//        response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
+
+        return new ResponseEntity<>(new ResponseBody("success","로그인 성공"), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/logout")
+    public ResponseEntity<ResponseBody> logout(HttpServletRequest request) {
+        userService.logout(request);
+        return new ResponseEntity<>(new ResponseBody("success","로그아웃 성공"), HttpStatus.OK);
     }
 }

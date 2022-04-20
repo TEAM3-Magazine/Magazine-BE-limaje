@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class PostDto {
         private String user_name;
         private String contents;
         private String image_url;
-        private LocalDateTime created_at;
+        private String created_at;
         private List<Long> post_like;
 
 
@@ -41,7 +42,7 @@ public class PostDto {
             this.user_name = post.getUser().getUserName();
             this.contents = post.getContents();
             this.image_url = post.getImageUrl();
-            this.created_at = post.getCreatedAt();
+            this.created_at = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             post_like = new ArrayList<>();
             for(Like like : post.getLikelist()){
                 post_like.add(like.getUser().getUserId());

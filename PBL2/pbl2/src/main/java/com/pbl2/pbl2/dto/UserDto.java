@@ -30,6 +30,17 @@ public class UserDto {
         private String user_password_check;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginRequest{
+        @NotBlank(message = "아이디를 입력해주세요.")
+        private String user_email;
+
+        @NotBlank(message = "비밀번호를 입력해주세요.")
+        private String user_password;
+    }
+
 
     @Getter
     @Setter
