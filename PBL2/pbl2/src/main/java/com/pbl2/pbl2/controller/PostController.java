@@ -2,6 +2,7 @@ package com.pbl2.pbl2.controller;
 
 
 import com.pbl2.pbl2.dto.PostDto;
+import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.exception.NotFoundPost;
 import com.pbl2.pbl2.model.Post;
 import com.pbl2.pbl2.model.User;
@@ -50,6 +51,9 @@ public class PostController {
     //CREATE
     @PostMapping("/api/post")
     public ResponseEntity<ResponseBody> createPosting(@RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails.getUser().getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
         User user = userDetails.getUser();
         postService.save(user, request);
         return new ResponseEntity<>(new ResponseBody("success","게시글을 생성했습니다"), HttpStatus.CREATED);
@@ -57,15 +61,23 @@ public class PostController {
 
     //UPDATE
     @PutMapping("/api/post/{postId}")
-    public ResponseEntity<ResponseBody> updatePosting(@PathVariable Long postId, @RequestBody PostDto.Request request) {
-        postService.update(postId, request);
+    public ResponseEntity<ResponseBody> updatePosting(@PathVariable Long postId, @RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        if(!user.getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
+        postService.update(postId, user.getUserId(), request);
         return new ResponseEntity<>(new ResponseBody("success","게시글을 수정했습니다"), HttpStatus.OK);
     }
 
     //DELETE
     @DeleteMapping("/api/post/{id}")
-    public ResponseEntity<ResponseBody> deletePosting(@PathVariable Long id) {
-        postService.delete(id);
+    public ResponseEntity<ResponseBody> deletePosting(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        if(!user.getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
+        postService.delete(id, user.getUserId());
         return new ResponseEntity<>(new ResponseBody("success","게시글을 삭제했습니다"), HttpStatus.OK);
     }
 

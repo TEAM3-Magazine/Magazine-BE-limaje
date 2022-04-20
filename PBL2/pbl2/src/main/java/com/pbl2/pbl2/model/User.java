@@ -43,4 +43,8 @@ public class User {
         this.userPassword = request.getUser_password();
     }
 
+    public User(String fail){
+        this.userName = "x";
+    }
+
 }

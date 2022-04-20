@@ -1,6 +1,7 @@
 package com.pbl2.pbl2.service;
 
 import com.pbl2.pbl2.dto.PostDto;
+import com.pbl2.pbl2.exception.InvalidPostDeleteAuthorization;
 import com.pbl2.pbl2.exception.NotFoundPost;
 import com.pbl2.pbl2.model.Post;
 import com.pbl2.pbl2.model.User;
@@ -38,19 +39,25 @@ public class PostService {
     }
 
     @Transactional
-    public Long update(Long id, PostDto.Request request) {
+    public Long update(Long id, Long userId,PostDto.Request request) {
         Post post = postRepository.findById(id).orElseThrow(
                 NotFoundPost::new
         );
+        if (post.getUser().getUserId() != userId){
+            throw new InvalidPostDeleteAuthorization();
+        }
         post.update(request);
         return post.getPostId();
     }
 
     @Transactional
-    public Long delete(Long id) {
+    public Long delete(Long id, Long userId) {
         Post post = postRepository.findById(id).orElseThrow(
                 NotFoundPost::new
         );
+        if (post.getUser().getUserId() != userId){
+            throw new InvalidPostDeleteAuthorization();
+        }
         postRepository.deleteById(id);
         return post.getPostId();
     }

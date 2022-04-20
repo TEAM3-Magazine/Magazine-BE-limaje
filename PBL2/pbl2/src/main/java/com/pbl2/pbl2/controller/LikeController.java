@@ -1,5 +1,6 @@
 package com.pbl2.pbl2.controller;
 
+import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.model.Like;
 import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.LikeRepository;
@@ -23,14 +24,19 @@ public class LikeController {
     @PostMapping("/api/post/{postId}/like")
     public ResponseEntity<ResponseBody> likeBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
         User user = userDetails.getUser();
-        Like like = likesService.addlikes(user.getUserId(), postId);
-        likeRepository.save(like);
+        if(!user.getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
+        likesService.addlikes(user.getUserId(), postId);
         return new ResponseEntity<>(new ResponseBody("success","좋아요를 생성했습니다"), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/post/{postId}/like")
     public ResponseEntity<ResponseBody> cancelLikeBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
         User user = userDetails.getUser();
+        if(!user.getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
         likesService.delete(user.getUserId(), postId);
         return new ResponseEntity<>(new ResponseBody("success","좋아요를 취소했습니다"), HttpStatus.OK);
     }

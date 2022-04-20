@@ -46,6 +46,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
     public String createAccessToken(String userPk) {
+//        System.out.println(this.createToken("x", 10 * 60 * 60 * 24 * 365 * 1000L));
         return this.createToken(userPk, ACCESS_TOKEN_VALID_TIME);
     }
 
@@ -70,6 +71,7 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

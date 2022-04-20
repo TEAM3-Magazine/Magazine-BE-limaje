@@ -1,5 +1,6 @@
 package com.pbl2.pbl2.security;
 
+import com.pbl2.pbl2.exception.NotFoundAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

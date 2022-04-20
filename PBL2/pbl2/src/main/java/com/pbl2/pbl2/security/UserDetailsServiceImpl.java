@@ -36,6 +36,8 @@ package com.pbl2.pbl2.security;
         import org.springframework.security.core.userdetails.UsernameNotFoundException;
         import org.springframework.stereotype.Service;
 
+        import java.util.Optional;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -48,9 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println(username);
-        User user = userRepository.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));
-
-        return new UserDetailsImpl(user);
+        Optional<User> user = userRepository.findByUserName(username);
+        return user.map(UserDetailsImpl::new).orElseGet(() -> new UserDetailsImpl(new User("fail")));
     }
 }

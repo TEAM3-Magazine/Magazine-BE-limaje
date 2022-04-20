@@ -28,7 +28,7 @@ public class ExceptionController {
 
     @ExceptionHandler({NotFoundAuth.class})
     public ResponseEntity<ResponseBody> NotFoundAuth(NotFoundAuth ex) {
-        return new ResponseEntity<>(new ResponseBody("fail", "로그인 정보가 필요합니다"), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ResponseBody("fail", "유효한 로그인 토큰이 필요합니다"), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({NotFoundPost.class})
@@ -39,6 +39,16 @@ public class ExceptionController {
     @ExceptionHandler({NotFoundUser.class})
     public ResponseEntity<ResponseBody> NotFoundUser(NotFoundUser ex) {
         return new ResponseEntity<>(new ResponseBody("fail", "존재하지 않는 회원 입니다"), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({NotFoundLike.class})
+    public ResponseEntity<ResponseBody> NotFoundLike(NotFoundLike ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "존재하지 않는 좋아요 상태 입니다"), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({ExistLike.class})
+    public ResponseEntity<ResponseBody> ExistLike(ExistLike ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "이미 존재하는 좋아요 상태 입니다"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({InvalidEmail.class})
@@ -74,6 +84,16 @@ public class ExceptionController {
     @ExceptionHandler({InvalidLogin.class})
     public ResponseEntity<ResponseBody> InvalidLogin(InvalidLogin ex) {
         return new ResponseEntity<>(new ResponseBody("fail", "아이디와 비밀번호가 유효하지 않습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({InvalidPostDeleteAuthorization.class})
+    public ResponseEntity<ResponseBody> InvalidPostDeleteAuthorization(InvalidPostDeleteAuthorization ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "본인의 글만 삭제가 가능합니다."), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({InvalidPostPutAuthorization.class})
+    public ResponseEntity<ResponseBody> InvalidPostPutAuthorization(InvalidPostPutAuthorization ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "본인의 글만 수정이 가능합니다."), HttpStatus.FORBIDDEN);
     }
 
 }
