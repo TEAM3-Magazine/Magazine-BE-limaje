@@ -18,7 +18,7 @@ public class ExceptionController {
 
     @ExceptionHandler({DuplicatedNickname.class})
     public ResponseEntity<ResponseBody> DuplicatedNickname(DuplicatedNickname ex) {
-        return new ResponseEntity<>(new ResponseBody("fail", "중복된 이메일 입니다"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseBody("fail", "중복된 닉네임 입니다"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({DuplicatedLike.class})
