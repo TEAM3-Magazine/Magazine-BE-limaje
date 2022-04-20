@@ -24,7 +24,7 @@ public class LikeController {
     @PostMapping("/api/post/{postId}/like")
     public ResponseEntity<ResponseBody> likeBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
         User user = userDetails.getUser();
-        if(!user.getUserName().equals("x")){
+        if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
         likesService.addlikes(user.getUserId(), postId);
@@ -34,7 +34,7 @@ public class LikeController {
     @DeleteMapping("/api/post/{postId}/like")
     public ResponseEntity<ResponseBody> cancelLikeBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
         User user = userDetails.getUser();
-        if(!user.getUserName().equals("x")){
+        if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
         likesService.delete(user.getUserId(), postId);

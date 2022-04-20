@@ -63,7 +63,7 @@ public class PostController {
     @PutMapping("/api/post/{postId}")
     public ResponseEntity<ResponseBody> updatePosting(@PathVariable Long postId, @RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        if(!user.getUserName().equals("x")){
+        if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
         postService.update(postId, user.getUserId(), request);
@@ -74,7 +74,7 @@ public class PostController {
     @DeleteMapping("/api/post/{id}")
     public ResponseEntity<ResponseBody> deletePosting(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        if(!user.getUserName().equals("x")){
+        if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
         postService.delete(id, user.getUserId());
