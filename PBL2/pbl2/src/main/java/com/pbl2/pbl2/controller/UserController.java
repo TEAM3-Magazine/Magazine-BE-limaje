@@ -6,6 +6,7 @@ import com.pbl2.pbl2.dto.UserDto;
 import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.exception.RestException;
 import com.pbl2.pbl2.responseEntity.ResponseBody;
+import com.pbl2.pbl2.responseEntity.TokenBody;
 import com.pbl2.pbl2.security.UserDetailsImpl;
 import com.pbl2.pbl2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<ResponseBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors) {
+    public ResponseEntity<TokenBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors) {
 //        if (user != null){
 //            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
 //        }
@@ -78,7 +79,8 @@ public class UserController {
         response.setHeader("Authorization", token.getToken());
 //        response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
 
-        return new ResponseEntity<>(new ResponseBody("success","로그인 성공"), HttpStatus.OK);
+
+        return new ResponseEntity<>(new TokenBody("success","로그인 성공", token.getToken()), HttpStatus.OK);
     }
 
     @PostMapping("/user/logout")

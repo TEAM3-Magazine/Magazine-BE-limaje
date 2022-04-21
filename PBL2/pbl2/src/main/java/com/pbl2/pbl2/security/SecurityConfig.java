@@ -80,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/").permitAll()
                 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/cors/**").permitAll()
                 // Get 요청 login 없이 허용
                 .antMatchers(HttpMethod.GET, "/api/post").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/post/*").permitAll()
