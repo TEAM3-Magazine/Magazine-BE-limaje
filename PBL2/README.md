@@ -29,5 +29,3 @@ spring.thymeleaf.prefix=classpath:/templates/
 
 spring.thymeleaf.suffix=.html
 
-
-"
