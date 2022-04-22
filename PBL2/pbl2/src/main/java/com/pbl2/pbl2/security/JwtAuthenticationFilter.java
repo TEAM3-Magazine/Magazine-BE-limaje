@@ -21,11 +21,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.
-        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        String Header = jwtTokenProvider.resolveAccessToken(request);
 //        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         // 유효한 토큰인지 확인합니다.
-        if (accessToken != null) {
-            if (jwtTokenProvider.validateToken(accessToken)) {
+        if (Header != null) {
+            String tokenType = Header.substring(0,6);
+            String accessToken = Header.substring(7);
+            if (jwtTokenProvider.validateToken(accessToken) && tokenType.equals("Bearer")) {
                 this.setAuthentication(accessToken);
             }
 //            else if (!jwtTokenProvider.validateToken(accessToken) && refreshToken != null) {

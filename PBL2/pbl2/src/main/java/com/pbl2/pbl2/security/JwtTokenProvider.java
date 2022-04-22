@@ -107,7 +107,7 @@ public class JwtTokenProvider {
 
     // 어세스 토큰 헤더 설정
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
-        response.setHeader("Authorization", accessToken);
+        response.setHeader("Authorization", "Bearer " + accessToken);
     }
 //
 //    // 리프레시 토큰 헤더 설정

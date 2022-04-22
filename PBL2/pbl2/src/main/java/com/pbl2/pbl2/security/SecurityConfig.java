@@ -131,7 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = mapper.createObjectNode();
             objectNode.put("result", "fail");
-            objectNode.put("msg", "로그인이 필요합니다");
+            objectNode.put("msg", "유효한 로그인 정보가 필요합니다");
 
             httpServletResponse.setContentType("application/json");
             PrintWriter out = httpServletResponse.getWriter();

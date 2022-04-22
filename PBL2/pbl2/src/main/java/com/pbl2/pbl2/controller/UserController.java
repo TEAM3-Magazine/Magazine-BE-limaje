@@ -81,7 +81,7 @@ public class UserController {
 
         TokenDto.Response token = userService.login(loginRequest);
 
-        response.setHeader("Authorization", token.getToken());
+        response.setHeader("Authorization", "Bearer " + token.getToken());
 //        response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
 
 
