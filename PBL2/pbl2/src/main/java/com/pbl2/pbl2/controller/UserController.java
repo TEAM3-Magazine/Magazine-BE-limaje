@@ -5,6 +5,7 @@ import com.pbl2.pbl2.dto.TokenDto;
 import com.pbl2.pbl2.dto.UserDto;
 import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.exception.RestException;
+import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.responseEntity.ResponseBody;
 import com.pbl2.pbl2.responseEntity.TokenBody;
 import com.pbl2.pbl2.security.UserDetailsImpl;
@@ -55,12 +56,16 @@ public class UserController {
     }
 
     //     회원 관련 정보 받기
-    @PostMapping("/user/userinfo")
-    public UserDto.Response getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Long userId = userDetails.getUser().getUserId();
-        String userEmail = userDetails.getUser().getUserEmail();
-        String userName = userDetails.getUser().getUserName();
-        return new UserDto.Response(userId, userEmail, userName);
+    @GetMapping("/user/userinfo")
+    public ResponseEntity<UserDto.Response> getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        if(user.getUserName().equals("x")){
+            throw new NotFoundAuth();
+        }
+        Long userId = user.getUserId();
+        String userEmail = user.getUserEmail();
+        String userName = user.getUserName();
+        return new ResponseEntity<>(new UserDto.Response(userId, userEmail, userName),HttpStatus.OK);
     }
 
     @PostMapping("/user/login")

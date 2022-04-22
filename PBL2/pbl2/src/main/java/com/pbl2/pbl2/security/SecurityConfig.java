@@ -79,7 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                // home 페이지 login 없이 허용
 //                .antMatchers("/").permitAll()
                 // 회원 관리 처리 API 전부를 login 없이 허용
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/logout").permitAll()
                 .antMatchers("/cors/**").permitAll()
                 // Get 요청 login 없이 허용
                 .antMatchers(HttpMethod.GET, "/api/post").permitAll()
