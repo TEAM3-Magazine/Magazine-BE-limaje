@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductTest {
+class UserTest {
     @Test
     @DisplayName("정상 케이스")
     void createTest1() {

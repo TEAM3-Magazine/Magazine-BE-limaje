@@ -2,6 +2,7 @@ package com.pbl2.pbl2.service;
 
 import com.pbl2.pbl2.dto.PostDto;
 import com.pbl2.pbl2.exception.InvalidPostDeleteAuthorization;
+import com.pbl2.pbl2.exception.InvalidPostPutAuthorization;
 import com.pbl2.pbl2.exception.NotFoundPost;
 import com.pbl2.pbl2.model.Post;
 import com.pbl2.pbl2.model.User;
@@ -44,7 +45,7 @@ public class PostService {
                 NotFoundPost::new
         );
         if (post.getUser().getUserId() != userId){
-            throw new InvalidPostDeleteAuthorization();
+            throw new InvalidPostPutAuthorization();
         }
         post.update(request);
         return post.getPostId();

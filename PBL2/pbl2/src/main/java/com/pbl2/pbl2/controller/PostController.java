@@ -31,6 +31,8 @@ public class PostController {
     //READ All
     @GetMapping("/api/post")
     public ResponseEntity<List<PostDto.Response>> getPostings() {
+        System.out.println("모든 게시글 요청");
+
         List<Post> posts = postService.getAll();
         List<PostDto.Response> body = new ArrayList<>();
 
@@ -44,28 +46,37 @@ public class PostController {
     //READ
     @GetMapping("/api/post/{id}")
     public ResponseEntity<PostDto.Response> getPostings(@PathVariable Long id) {
+        System.out.println("특정 게시글 요청 : " + id);
+
         Post post = postService.get(id);
+
         return new ResponseEntity<>(new PostDto.Response(post), HttpStatus.OK);
     }
 
     //CREATE
     @PostMapping("/api/post")
     public ResponseEntity<ResponseBody> createPosting(@RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println("게시글 생성 contents : " + request.getContents() + " image_url : " + request.getImage_url());
+
         if(userDetails.getUser().getUserName().equals("x")){
             throw new NotFoundAuth();
         }
+
         User user = userDetails.getUser();
-        postService.save(user, request);
+        Long postId = postService.save(user, request).getPostId();
         return new ResponseEntity<>(new ResponseBody("success","게시글을 생성했습니다"), HttpStatus.CREATED);
     }
 
     //UPDATE
     @PutMapping("/api/post/{postId}")
     public ResponseEntity<ResponseBody> updatePosting(@PathVariable Long postId, @RequestBody PostDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println("게시글 수정 : " + postId + " contents : "+ request.getContents() + " image_url : " + request.getImage_url());
+
         User user = userDetails.getUser();
         if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
+
         postService.update(postId, user.getUserId(), request);
         return new ResponseEntity<>(new ResponseBody("success","게시글을 수정했습니다"), HttpStatus.OK);
     }
@@ -73,10 +84,13 @@ public class PostController {
     //DELETE
     @DeleteMapping("/api/post/{id}")
     public ResponseEntity<ResponseBody> deletePosting(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println("게시글 삭제 : " + id);
+
         User user = userDetails.getUser();
         if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
+
         postService.delete(id, user.getUserId());
         return new ResponseEntity<>(new ResponseBody("success","게시글을 삭제했습니다"), HttpStatus.OK);
     }
