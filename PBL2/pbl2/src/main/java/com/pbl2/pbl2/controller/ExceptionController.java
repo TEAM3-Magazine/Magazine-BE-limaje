@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ExceptionController {
+    @ExceptionHandler({DuplicatedLogin.class})
+    public ResponseEntity<ResponseBody> DuplicatedLogin(DuplicatedLogin ex) {
+        return new ResponseEntity<>(new ResponseBody("fail", "이미 로그인 상태 입니다"), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler({DuplicatedEmail.class})
     public ResponseEntity<ResponseBody> DuplicatedEmail(DuplicatedEmail ex) {

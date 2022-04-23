@@ -3,6 +3,7 @@ package com.pbl2.pbl2.controller;
 
 import com.pbl2.pbl2.dto.TokenDto;
 import com.pbl2.pbl2.dto.UserDto;
+import com.pbl2.pbl2.exception.DuplicatedLogin;
 import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.exception.RestException;
 import com.pbl2.pbl2.model.User;
@@ -52,27 +53,28 @@ public class UserController {
     public ResponseEntity<ResponseBody> registerUser(@Valid @RequestBody UserDto.Request requestDto, Errors errors) {
         userService.validateHandling(errors);
         userService.registerUser(requestDto);
-        return new ResponseEntity<>(new ResponseBody("success","회원 가입 성공"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseBody("success", "회원 가입 성공"), HttpStatus.OK);
     }
 
     //     회원 관련 정보 받기
     @GetMapping("/user/userinfo")
     public ResponseEntity<UserDto.Response> getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        if(user.getUserName().equals("x")){
+        if (user.getUserName().equals("x")) {
             throw new NotFoundAuth();
         }
         Long userId = user.getUserId();
         String userEmail = user.getUserEmail();
         String userName = user.getUserName();
-        return new ResponseEntity<>(new UserDto.Response(userId, userEmail, userName),HttpStatus.OK);
+        return new ResponseEntity<>(new UserDto.Response(userId, userEmail, userName), HttpStatus.OK);
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<TokenBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors) {
-//        if (user != null){
-//            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
-//        }
+    public ResponseEntity<TokenBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails != null) {
+            throw new DuplicatedLogin();
+        }
+
         if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
@@ -85,12 +87,13 @@ public class UserController {
 //        response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
 
 
-        return new ResponseEntity<>(new TokenBody("success","로그인 성공", token.getToken()), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenBody("success", "로그인 성공", token.getToken()), HttpStatus.OK);
     }
 
     @PostMapping("/user/logout")
     public ResponseEntity<ResponseBody> logout(HttpServletRequest request) {
+//        동작 안함
         userService.logout(request);
-        return new ResponseEntity<>(new ResponseBody("success","로그아웃 성공"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseBody("success", "로그아웃 성공"), HttpStatus.OK);
     }
 }
