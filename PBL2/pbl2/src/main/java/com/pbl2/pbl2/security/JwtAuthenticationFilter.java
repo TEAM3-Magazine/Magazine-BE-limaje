@@ -24,8 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String Header = jwtTokenProvider.resolveAccessToken(request);
 //        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         // 유효한 토큰인지 확인합니다.
-        if (Header != null) {
-            System.out.println("Header = " + Header);
+        if (Header != null && !Header.equals("undefined")) {
+            System.out.println("Header(일부만 표시) = " + Header.substring(0, Header.length()/2));
             String tokenType = Header.substring(0,6);
             String accessToken = Header.substring(7);
             if (jwtTokenProvider.validateToken(accessToken) && tokenType.equals("Bearer")) {

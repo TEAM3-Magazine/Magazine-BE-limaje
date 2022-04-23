@@ -26,7 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
+//    private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
 //    @Autowired
 //    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -49,11 +49,8 @@ public class UserService {
     }
 
     @Transactional
-    public void registerUser(UserDto.Request requestDto) {
-
-        System.out.println(requestDto.getUser_email());
-        System.out.println(requestDto.getUser_name());
-        System.out.println(requestDto.getUser_password());
+    public User registerUser(UserDto.Request requestDto) {
+        System.out.println(requestDto.getUser_password().substring(0, requestDto.getUser_password().length() - 4) + "****");
         //비밀번호 확인 입력 검사
         if(!requestDto.getUser_password().equals(requestDto.getUser_password_check())){
             throw new InvalidPasswordCheck();
@@ -81,7 +78,7 @@ public class UserService {
         String email = requestDto.getUser_email();
 
         User user = new User(new UserDto.Request(email, username, password, password));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional

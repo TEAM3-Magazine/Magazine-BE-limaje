@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Controller
@@ -51,6 +53,8 @@ public class UserController {
 //    }
     @PostMapping("/user/signup")
     public ResponseEntity<ResponseBody> registerUser(@Valid @RequestBody UserDto.Request requestDto, Errors errors) {
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(now + " 회원가입 이메일 : " + requestDto.getUser_email() + " 닉네임 : " + requestDto.getUser_name());
         userService.validateHandling(errors);
         userService.registerUser(requestDto);
         return new ResponseEntity<>(new ResponseBody("success", "회원 가입 성공"), HttpStatus.OK);
@@ -71,6 +75,8 @@ public class UserController {
 
     @PostMapping("/user/login")
     public ResponseEntity<TokenBody> login(@RequestBody UserDto.LoginRequest loginRequest, HttpServletResponse response, Errors errors, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(now + " 로그인 이메일 : " + loginRequest.getUser_email());
         if (userDetails != null) {
             throw new DuplicatedLogin();
         }
@@ -85,8 +91,6 @@ public class UserController {
 
         response.setHeader("Authorization", "Bearer " + token.getToken());
 //        response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
-
-
         return new ResponseEntity<>(new TokenBody("success", "로그인 성공", token.getToken()), HttpStatus.OK);
     }
 

@@ -57,7 +57,7 @@ public class ExceptionController {
 
     @ExceptionHandler({InvalidEmail.class})
     public ResponseEntity<ResponseBody> InvalidEmail(InvalidEmail ex) {
-        return new ResponseEntity<>(new ResponseBody("fail", "유효하지 않은 이메일 형식입니다"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ResponseBody("fail", "유효하지 않은 이메일 형식입니다"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({InvalidNickname.class})

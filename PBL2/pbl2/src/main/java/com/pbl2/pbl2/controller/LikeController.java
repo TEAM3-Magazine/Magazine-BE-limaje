@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @RequiredArgsConstructor
 @RestController
 public class LikeController {
@@ -27,8 +30,8 @@ public class LikeController {
         if(user.getUserName().equals("x")){
             throw new NotFoundAuth();
         }
-
-        System.out.println("좋아요 userId = " + user.getUserId() + "postId 요청" + postId);
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(now + " 좋아요 userId = " + user.getUserId() + " postId 요청" + postId);
 
         likesService.addlikes(user.getUserId(), postId);
         return new ResponseEntity<>(new ResponseBody("success","좋아요를 생성했습니다"), HttpStatus.OK);
@@ -41,7 +44,8 @@ public class LikeController {
             throw new NotFoundAuth();
         }
 
-        System.out.println("좋아요 userId = " + user.getUserId() + "postId 요청" + postId);
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(now + "좋아요 취소 userId = " + user.getUserId() + " postId 요청" + postId);
 
         likesService.delete(user.getUserId(), postId);
         return new ResponseEntity<>(new ResponseBody("success","좋아요를 취소했습니다"), HttpStatus.OK);

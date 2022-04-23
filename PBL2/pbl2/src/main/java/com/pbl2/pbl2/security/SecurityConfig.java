@@ -129,7 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             httpServletResponse.setCharacterEncoding("utf-8");
 
-            System.out.println("오류 = AuthenticationEntryPoint");
+//            System.out.println("오류 = AuthenticationEntryPoint");
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = mapper.createObjectNode();
             objectNode.put("result", "fail");
