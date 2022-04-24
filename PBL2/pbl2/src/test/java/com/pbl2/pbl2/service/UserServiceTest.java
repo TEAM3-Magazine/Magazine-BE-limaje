@@ -1,15 +1,19 @@
 package com.pbl2.pbl2.service;
 
+import com.pbl2.pbl2.dto.TokenDto;
 import com.pbl2.pbl2.dto.UserDto;
 import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.UserRepository;
 import com.pbl2.pbl2.security.JwtTokenProvider;
+import com.pbl2.pbl2.security.UserDetailsServiceImpl;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -23,19 +27,18 @@ import static org.mockito.Mockito.when;
 class UserServiceTest {
     @Mock
     UserRepository userRepository;
-
     @Mock
-    PasswordEncoder passwordEncoder;
-
+    UserDetailsServiceImpl userDetailsService;
     @Mock
     JwtTokenProvider jwtTokenProvider;
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @Test
     @DisplayName("회원가입 테스트")
-    void updateProduct_Normal() {
+    void createSignup() {
         // given
         UserService userService = new UserService(userRepository,passwordEncoder, jwtTokenProvider);
-//        Long productId = 100L;
         String email = "aaa@aaa";
         String nickname = "aaaa";
         String password = "asdf";
@@ -45,20 +48,41 @@ class UserServiceTest {
         User user = new User(userRequest);
         when(userRepository.save(any(User.class))).then(AdditionalAnswers.returnsFirstArg());
 
-//        U productService = new ProductService(productRepository);
-
         // when
-//        Product result = productService.updateProduct(productId, requestMyPriceDto);
+        User user1 = userService.registerUser(userRequest);
 
         // then
-//        assertEquals(myprice, result.getMyprice());
-        User user1 = userService.registerUser(userRequest);
-        System.out.println("user = " + user1.getUserId());
-        System.out.println("user = " + user1.getUserEmail());
-        System.out.println("user = " + user1.getUserPassword());
-        System.out.println("user = " + user1.getUserName());
-
+        Assertions.assertThat(user1.getUserEmail()).isEqualTo(email);
+        Assertions.assertThat(passwordEncoder.matches(password,user1.getUserPassword())).isTrue();
+        Assertions.assertThat(user1.getUserName()).isEqualTo(nickname);
     }
+
+    @Test
+    @DisplayName("로그인 테스트")
+    void login() {
+        // given
+        UserService userService = new UserService(userRepository,passwordEncoder, jwtTokenProvider);
+        String email = "aaa@aaa";
+        String nickname = "aaaa";
+        String password = "asdf";
+        String test = email.substring(0,email.length()/2);
+
+        UserDto.Request userRequest = new UserDto.Request(email,nickname,password,password);
+        User user = new User(userRequest);
+        when(userRepository.save(any(User.class))).then(AdditionalAnswers.returnsFirstArg());
+        User user1 = userService.registerUser(userRequest);
+
+        when(userRepository.findByUserEmail(any(String.class))).thenReturn(Optional.of(user1));
+        when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("Token");
+
+
+        // when
+        TokenDto.Response response = userService.login(new UserDto.LoginRequest(email, password));
+
+        // then
+        Assertions.assertThat(response.getToken()).isEqualTo("Token");
+    }
+
 
 }
 
