@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
     @Getter
-    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request{

@@ -9,7 +9,6 @@ import lombok.Setter;
 public class LikeDto {
 
     @Getter
-    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request{
@@ -17,7 +16,6 @@ public class LikeDto {
     }
 
     @Getter
-    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
