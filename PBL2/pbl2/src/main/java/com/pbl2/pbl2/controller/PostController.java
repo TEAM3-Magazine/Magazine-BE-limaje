@@ -4,6 +4,7 @@ package com.pbl2.pbl2.controller;
 import com.pbl2.pbl2.dto.PostDto;
 import com.pbl2.pbl2.exception.NotFoundAuth;
 import com.pbl2.pbl2.exception.NotFoundPost;
+import com.pbl2.pbl2.model.Like;
 import com.pbl2.pbl2.model.Post;
 import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.PostRepository;
@@ -40,7 +41,22 @@ public class PostController {
         List<PostDto.Response> body = new ArrayList<>();
 
         for (Post post : posts) {
-            body.add(new PostDto.Response(post));
+            //        builder 적용
+            List<Long> likeList = new ArrayList<>();
+            for(Like like : post.getLikelist()){
+                likeList.add(like.getUser().getUserId());
+            }
+            PostDto.Response postResponse = PostDto.Response.builder()
+                    .post_id(post.getPostId())
+                    .user_id(post.getUser().getUserId())
+                    .user_name(post.getUser().getUserName())
+                    .contents(post.getContents())
+                    .image_url(post.getImageUrl())
+                    .created_at(post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .post_like(likeList)
+                .build();
+//            body.add(new PostDto.Response(post));
+            body.add(postResponse);
         }
 
         return new ResponseEntity<>(body, HttpStatus.OK);

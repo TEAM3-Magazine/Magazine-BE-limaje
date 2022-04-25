@@ -3,6 +3,7 @@ package com.pbl2.pbl2.dto;
 import com.pbl2.pbl2.model.Like;
 import com.pbl2.pbl2.model.Post;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +27,7 @@ public class PostDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class Response{
         private Long post_id;
         private Long user_id;
