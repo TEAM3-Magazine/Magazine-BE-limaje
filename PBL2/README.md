@@ -1,7 +1,9 @@
 # PBL2~4
- 2022 4/15 ~
+2022 4/15 ~  
 
-JAVA SDK 11
+some APIs for CRUD
+
+using MySQL, JAVA SDK 11
 
 ## You must set up application.properties
 
@@ -29,3 +31,5 @@ spring.thymeleaf.prefix=classpath:/templates/
 
 spring.thymeleaf.suffix=.html
 
+
+## Backend fo
