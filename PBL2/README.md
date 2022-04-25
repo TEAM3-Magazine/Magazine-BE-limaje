@@ -11,11 +11,11 @@ using MySQL, JAVA SDK 11
 
 #spring.datasource.url=jdbc:h2:mem:testdb
 
-spring.datasource.url=jdbc:mysql://databasepbl.ctly38plxhxy.ap-northeast-2.rds.amazonaws.com:3306/mydatabasepbl
+spring.datasource.url=
 
-spring.datasource.username=root
+spring.datasource.username=
 
-spring.datasource.password=test1234
+spring.datasource.password=
 
 spring.jpa.hibernate.ddl-auto=update
 
