@@ -1,9 +1,6 @@
 package com.pbl2.pbl2.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +13,7 @@ public class UserDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class Request{
         @NotBlank @Email
         private String user_email;

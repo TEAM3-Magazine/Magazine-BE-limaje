@@ -23,7 +23,7 @@ public class Post extends Timestamped { // 생성,수정 시간을 자동으로 
     @Column(name = "post_id")
     private Long postId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String contents;
 
     @Column(name = "image_url", nullable = true, length = 5000)
