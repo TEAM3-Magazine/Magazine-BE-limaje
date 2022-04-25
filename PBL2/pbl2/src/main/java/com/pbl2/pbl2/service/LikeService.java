@@ -21,7 +21,6 @@ import java.util.Optional;
 @Service
 public class LikeService {
 
-    private final PostService postService;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;

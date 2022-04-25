@@ -1,26 +1,18 @@
 package com.pbl2.pbl2.service;
 
 import com.pbl2.pbl2.dto.PostDto;
-import com.pbl2.pbl2.dto.TokenDto;
 import com.pbl2.pbl2.dto.UserDto;
 import com.pbl2.pbl2.model.Post;
 import com.pbl2.pbl2.model.User;
 import com.pbl2.pbl2.repository.PostRepository;
-import com.pbl2.pbl2.repository.UserRepository;
-import com.pbl2.pbl2.security.JwtTokenProvider;
-import com.pbl2.pbl2.security.UserDetailsServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -71,7 +63,6 @@ class PostServiceTest {
         createPost();
         PostService postService = new PostService(postRepository);
         when(postRepository.findAllByOrderByCreatedAtDesc()).thenReturn(posts);
-
 
         // when
         List<Post> postsReturn = postService.getAll();

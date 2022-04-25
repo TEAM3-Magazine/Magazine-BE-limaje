@@ -26,17 +26,17 @@ public class CORSController {
 
 
 //    Don't use!!!!
-//    private final UserRepository userRepository;
-//    private final PostRepository postRepository;
-//    private final LikeRepository likeRepository;
-//    @GetMapping("/api/post/clear")
-//    @Transactional
-//    public ResponseEntity<ResponseBody> clearAll() {
-//        likeRepository.deleteAll();
-//        postRepository.deleteAll();
-//        userRepository.deleteAll();
-//        return new ResponseEntity<>(new ResponseBody("success", "DELETE ALL"), HttpStatus.OK);
-//    }
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
+    @GetMapping("/api/post/clear")
+    @Transactional
+    public ResponseEntity<ResponseBody> clearAll() {
+        likeRepository.deleteAll();
+        postRepository.deleteAll();
+        userRepository.deleteAll();
+        return new ResponseEntity<>(new ResponseBody("success", "DELETE ALL"), HttpStatus.OK);
+    }
 
 
     @GetMapping("/cors/test")

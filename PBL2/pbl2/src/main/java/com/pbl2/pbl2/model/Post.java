@@ -1,6 +1,7 @@
 package com.pbl2.pbl2.model;
 
 import com.pbl2.pbl2.dto.PostDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
